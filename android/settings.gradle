@@ -1,0 +1,3 @@
+rootProject.name = 'SiademMovil'
+
+include ':app'
