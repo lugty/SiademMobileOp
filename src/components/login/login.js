@@ -4,11 +4,51 @@ import {
   View,
   Text,
   StyleSheet,
-  Image
+  Image,
+  AsyncStorage
 } from 'react-native';
 import LoginForm from './loginForm';
 
+import {Actions} from 'react-native-router-flux';
+
 export default class Login extends Component{
+
+  constructor(){
+    super();
+    this.state = {
+      username: null,
+      password: null
+    }
+  }
+
+  async saveItem(item, selectedValue){
+    try {
+      await AsyncStorage.setItem(item, selectedValue);
+    } catch (e) {
+      console.error('AsyncStorage error: ' + error.message);
+    }
+  }
+
+  userSignup(){
+    if(this.state.username && this.state.password){
+      fetch('http://sistema.siadem.com/account/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password
+        })
+      })
+      .then((response) => response.json());
+      .then((responseData) => {
+        Actions.HomePage();
+      })
+    }
+  }
+
   render(){
     return(
       <View style={styles.container}>
