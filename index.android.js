@@ -6,11 +6,12 @@ import {
   View
 } from 'react-native';
 import Login from './src/components/login/login'
+import Router from './src/components/app'
 
 export default class SiademMovil extends Component {
   render() {
     return (
-        <Login/>
+        <Router/>
     );
   }
 }

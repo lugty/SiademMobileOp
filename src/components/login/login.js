@@ -17,7 +17,8 @@ export default class Login extends Component{
     super();
     this.state = {
       username: null,
-      password: null
+      password: null,
+      errorMessage: null
     }
   }
 
@@ -31,22 +32,52 @@ export default class Login extends Component{
 
   userSignup(){
     if(this.state.username && this.state.password){
-      fetch('http://sistema.siadem.com/account/login', {
+      var formData  = new FormData();
+      formData.append("username", this.state.username);
+      formData.append("password", this.state.password);
+
+      fetch('https://sistema.siadem.com/account/loginAPI', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({
-          username: this.state.username,
-          password: this.state.password
-        })
+        body: formData
       })
-      .then((response) => response.json());
+      .then((response) => response.json())
       .then((responseData) => {
-        Actions.HomePage();
+        if(responseData.status)
+          this.getAccountTokenCSRF();
+        else{
+          var errorMessage = responseData.error;
+          this.setState({errorMessage});
+        }
       })
+      .catch((error) => {
+        console.error(error);
+      });
     }
+  }
+
+  getAccountTokenCSRF(){
+    fetch('https://sistema.siadem.com/account/csrf', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+      if(responseData.token){
+        this.saveItem('token', responseData.token);
+        Actions.HomePage();
+      }else{
+        var errorMessage = 'No se pudo obtener el token de sesion';
+        this.setState({errorMessage});
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
 
   render(){
@@ -58,7 +89,13 @@ export default class Login extends Component{
           <Text style={styles.title}>Sistema Administrativo Empresarial</Text>
         </View>
         <View style={styles.formContainer}>
-          <LoginForm/>
+          <Text style={this.state.errorMessage?styles.error:''}>{this.state.errorMessage}</Text>
+          <LoginForm
+            handlerLogin={this.userSignup.bind(this)}
+            username={this.state.username}
+            password={this.state.password}
+            setCredentials={this.setState.bind(this)}
+          />
         </View>
       </View>
     );
@@ -83,5 +120,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginTop: 5,
     opacity: 0.7
+  },
+  error:{
+    color: '#ff0000',
+    opacity: 0.7,
+    // backgroundColor: 'rgba(255,255,255,0.3)',
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    textAlign: 'center'
   }
 });

@@ -23,6 +23,9 @@ export default class LoginForm extends Component{
         returnKeyType="next"
         autoCorrect={false}
         onSubmitEditing={() => this.passwordInput.focus()}
+
+        value={this.props.username}
+        onChangeText={(username) => this.props.setCredentials({username})}
          />
         <TextInput style={styles.input}
         placeholder="Password"
@@ -31,9 +34,12 @@ export default class LoginForm extends Component{
         secureTextEntry
         returnKeyType="go"
         ref={ (input) => this.passwordInput = input }
+
+        value={this.props.password}
+        onChangeText={(password) => this.props.setCredentials({password})}
          />
 
-         <TouchableOpacity style={styles.buttonContainer}>
+         <TouchableOpacity style={styles.buttonContainer} onPress={this.props.handlerLogin}>
           <Text style={styles.buttonText}>Entrar</Text>
          </TouchableOpacity>
       </View>

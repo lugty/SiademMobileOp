@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
+import {StackNavigator} from 'react-navigation';
 import {Actions} from 'react-native-router-flux';
 
 export default class HomePage extends Component{
 
+  static navigationOptions = {
+    title: 'Siadem'
+  }
+  
   userLogout(){
     Actions.Authentication();
   }
