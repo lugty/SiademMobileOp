@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
+  TouchableOpacity,
   AsyncStorage,
   Alert
 } from 'react-native';
@@ -21,7 +22,14 @@ export default class Profile extends Component{
   render(){
     return(
       <View style={styles.container}>
-
+        <TouchableOpacity
+          style={style.buttonWrapper}
+          onPress={this.userLogout}
+        >
+          <Text style={styles.buttonText}>
+          Salir
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
