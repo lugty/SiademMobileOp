@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
   error:{
     color: '#ff0000',
     opacity: 0.7,
-    // backgroundColor: 'rgba(255,255,255,0.3)',
     paddingHorizontal: 10,
     paddingVertical: 3,
     textAlign: 'center'
