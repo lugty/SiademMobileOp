@@ -69,7 +69,7 @@ export default class Login extends Component{
     .then((responseData) => {
       if(responseData.token){
         this.saveItem('token', responseData.token);
-        Actions.HomePage();
+        Actions.tabbar();
       }else{
         var errorMessage = 'No se pudo obtener el token de sesion';
         this.setState({errorMessage});

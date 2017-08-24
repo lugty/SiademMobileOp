@@ -8,6 +8,7 @@ import {ActivityIndicator, AsyncStorage} from 'react-native';
 import Login from '../login/login';
 import HomePage from '../homePage/HomePage';
 import Profile from '../profile/Profile';
+import Settings from '../settings/Settings';
 
 export default class App extends Component{
   constructor(){
@@ -74,6 +75,23 @@ export default class App extends Component{
                   key='Profile'
                 />
               </Scene>
+
+
+              <Scene
+                key="Settings"
+                title="Configuracion"
+                tabBarIcon={TabIcon}
+                tabBarLabel="Config"
+                navigationBarStyle={{backgroundColor: '#2196f3'}}
+                titleStyle={{color: '#fff'}}
+                >
+                <Scene
+                  component={Settings}
+                  key='Settings'
+                />
+              </Scene>
+
+
             </Scene>
           </Scene>
         </Router>
